@@ -1,6 +1,5 @@
 package org.wekeepinmind.reminder;
 
-import com.amazonaws.annotation.Immutable;
 import com.wekeepinmind.dao.reminder.Reminder;
 import com.wekeepinmind.dao.reminder.ReminderDAO;
 import com.wekeepinmind.dao.reminder.UserToReminderMapping;
@@ -45,7 +44,7 @@ public class ReminderServiceImpl implements ReminderService {
     }
 
     @Override
-    public List<Reminder> getRemindersForUser(String userId) {
+    public List<Reminder> getActiveRemindersForUser(String userId) {
         UserToReminderMapping userToReminderMapping = userToReminderMappingDAO.get(userId);
 
         if (userToReminderMapping == null) {
@@ -55,7 +54,12 @@ public class ReminderServiceImpl implements ReminderService {
     }
 
     @Override
-    public void updateReminder(Reminder reminder) {
+    public List<Reminder> getActiveRemindersForGroup(String groupId) {
+        return reminderDAO.getReminderByGroupId(groupId);
+    }
 
+    @Override
+    public void updateReminder(Reminder reminder) {
+// TODO
     }
 }

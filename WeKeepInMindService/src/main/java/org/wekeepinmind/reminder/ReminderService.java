@@ -8,7 +8,9 @@ public interface ReminderService {
 
     void saveReminder(Reminder reminder);
 
-    List<Reminder> getRemindersForUser(String userId);
+    List<Reminder> getActiveRemindersForUser(String userId);
+
+    List<Reminder> getActiveRemindersForGroup(String groupId);
 
     void updateReminder(Reminder reminder);
 

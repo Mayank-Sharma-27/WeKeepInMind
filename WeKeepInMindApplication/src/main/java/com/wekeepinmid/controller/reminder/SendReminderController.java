@@ -1,7 +1,6 @@
 package com.wekeepinmid.controller.reminder;
 
 import com.wekeepinmind.dao.group.Group;
-import com.wekeepinmind.dao.group.GroupDAO;
 import com.wekeepinmind.dao.reminder.Reminder;
 import com.wekeepinmind.dao.user.User;
 import lombok.AllArgsConstructor;
@@ -10,6 +9,8 @@ import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.wekeepinmind.group.GroupService;
+import org.wekeepinmind.reminder.ReminderService;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,12 +20,13 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class SendReminderController {
 
-    private final GroupDAO groupDAO;
+    private final ReminderService reminderService;
 
+    private final GroupService groupService;
 
     @PostMapping("/send-reminder")
     public SendReminderResponse sendReminder(final SendReminderRequest request) {
-        final Optional<Group> group = groupDAO.getGroupByGroupId(request.getGroupId());
+        final Optional<Group> group = groupService.getGroupByGroupId(request.getGroupId());
         if (group.isEmpty()) {
             return new SendReminderResponse("INVALID_GROUP_ID", 500);
         }
@@ -38,7 +40,7 @@ public class SendReminderController {
                 .filter(reminderUser -> !users.contains(reminderUser))
                 .findFirst();
 
-        if(invalidUser.isPresent()){
+        if (invalidUser.isPresent()) {
             return new SendReminderResponse("INVALID_USER_PRESENT", 500);
         }
 
@@ -50,8 +52,7 @@ public class SendReminderController {
                 request.getReminderUsers(),
                 request.getReminderEditorUsers(),
                 false);
-
-
+        reminderService.saveReminder(reminder);
 
         return new SendReminderResponse("REMINDER_SENT", 200);
     }
