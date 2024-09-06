@@ -4,6 +4,7 @@ import com.wekeepinmind.dao.reminder.Reminder;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,7 +13,7 @@ import org.wekeepinmind.reminder.ReminderService;
 import java.util.List;
 
 @Controller
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class GetReminderController {
 
     private final ReminderService reminderService;
@@ -37,7 +38,7 @@ public class GetReminderController {
     public static class GetRemindersResponse {
         private List<Reminder> reminders;
         private String message;
-        private int status
+        private int status;
     }
 
 
