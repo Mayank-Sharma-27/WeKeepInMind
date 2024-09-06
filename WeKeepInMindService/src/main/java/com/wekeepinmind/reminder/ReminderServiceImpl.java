@@ -1,4 +1,4 @@
-package org.wekeepinmind.reminder;
+package com.wekeepinmind.reminder;
 
 import com.wekeepinmind.dao.reminder.Reminder;
 import com.wekeepinmind.dao.reminder.ReminderDAO;

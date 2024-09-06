@@ -1,4 +1,4 @@
-package org.wekeepinmind.group;
+package com.wekeepinmind.group;
 
 import com.wekeepinmind.dao.group.Group;
 import com.wekeepinmind.dao.group.GroupDAO;
@@ -13,9 +13,13 @@ public class GroupServiceImpl implements GroupService {
 
     private final GroupDAO groupDAO;
 
-
     @Override
     public Optional<Group> getGroupByGroupId(String groupId) {
         return groupDAO.getGroupByGroupId(groupId);
+    }
+
+    @Override
+    public void saveGroup(Group group) {
+        groupDAO.saveGroup(group);
     }
 }

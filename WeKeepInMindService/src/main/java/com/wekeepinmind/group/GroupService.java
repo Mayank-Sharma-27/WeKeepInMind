@@ -1,4 +1,4 @@
-package org.wekeepinmind.group;
+package com.wekeepinmind.group;
 
 import com.wekeepinmind.dao.group.Group;
 
@@ -8,4 +8,5 @@ public interface GroupService {
 
     Optional<Group> getGroupByGroupId(String groupId);
 
+    void saveGroup(Group group);
 }
