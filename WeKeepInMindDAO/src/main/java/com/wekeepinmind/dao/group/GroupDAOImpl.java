@@ -2,7 +2,7 @@ package com.wekeepinmind.dao.group;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import org.wekeepinmind.clients.dynamodb.DynamoDBMapperService;
+import com.wekeepinmind.dao.dynamodb.DynamoDBMapperService;
 
 import java.util.Optional;
 

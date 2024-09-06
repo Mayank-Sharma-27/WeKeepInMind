@@ -1,8 +1,8 @@
 package com.wekeepinmind.dao.reminder;
 
+import com.wekeepinmind.dao.dynamodb.DynamoDBMapperService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
-import org.wekeepinmind.clients.dynamodb.DynamoDBMapperService;
 
 import java.util.List;
 import java.util.Optional;

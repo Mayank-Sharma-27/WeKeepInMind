@@ -23,13 +23,13 @@ public class Group {
     private String groupName;
 
     @DynamoDBAttribute
-    private int adminUser;
+    private String adminUser;
 
     @DynamoDBAttribute
     private boolean isActive;
 
     @DynamoDBAttribute
-    private boolean numberOfUsers;
+    private int numberOfUsers;
 
     @DynamoDBAttribute
     private List<User> groupUsers;

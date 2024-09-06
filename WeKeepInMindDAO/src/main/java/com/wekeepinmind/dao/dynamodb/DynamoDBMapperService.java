@@ -1,4 +1,4 @@
-package org.wekeepinmind.clients.dynamodb;
+package com.wekeepinmind.dao.dynamodb;
 
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
@@ -18,23 +18,16 @@ import java.util.Map;
 @Service
 public class DynamoDBMapperService {
 
-    @Value("${aws.dynamodb.endpoint}")
-    private String dynamodbEndpoint;
-
-    @Value("${aws.region}")
-    private String awsRegion;
-
-    @Value("${aws.dynamodb.accessKey}")
-    private String dynamodbAccessKey;
-
-    @Value("${aws.dynamodb.secretKey}")
-    private String dynamodbSecretKey;
-
     private final AmazonDynamoDB dynamoDBClient;
     private final DynamoDBMapper dynamoDBMapper;
 
-    public DynamoDBMapperService() {
-       this.dynamoDBClient = AmazonDynamoDBClientBuilder
+    public DynamoDBMapperService(
+            @Value("${aws.dynamodb.endpoint}") String dynamodbEndpoint,
+            @Value("${aws.region}") String awsRegion,
+            @Value("${aws.accessKey}") String dynamodbAccessKey,
+            @Value("${aws.secretKey}") String dynamodbSecretKey
+    ) {
+        this.dynamoDBClient = AmazonDynamoDBClientBuilder
                 .standard()
                 .withEndpointConfiguration(
                         new AwsClientBuilder.EndpointConfiguration(
