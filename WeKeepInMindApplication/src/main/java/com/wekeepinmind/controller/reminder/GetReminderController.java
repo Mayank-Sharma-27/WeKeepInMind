@@ -1,4 +1,4 @@
-package com.wekeepinmid.controller.reminder;
+package com.wekeepinmind.controller.reminder;
 
 import com.wekeepinmind.dao.reminder.Reminder;
 import lombok.AllArgsConstructor;
@@ -8,11 +8,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.wekeepinmind.reminder.ReminderService;
+import com.wekeepinmind.reminder.ReminderService;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 public class GetReminderController {
 

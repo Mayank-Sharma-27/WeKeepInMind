@@ -1,4 +1,4 @@
-package com.wekeepinmid.controller.user;
+package com.wekeepinmind.controller.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,9 +1,9 @@
-package com.wekeepinmid.controller.user;
+package com.wekeepinmind.controller.user;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 public class UserController {
 
     @GetMapping("/welcome")

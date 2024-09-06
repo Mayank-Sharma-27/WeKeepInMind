@@ -1,4 +1,4 @@
-package com.wekeepinmid.controller.reminder;
+package com.wekeepinmind.controller.reminder;
 
 import com.wekeepinmind.dao.group.Group;
 import com.wekeepinmind.dao.reminder.Reminder;
@@ -9,14 +9,16 @@ import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.wekeepinmind.group.GroupService;
-import org.wekeepinmind.reminder.ReminderService;
+import com.wekeepinmind.group.GroupService;
+import com.wekeepinmind.reminder.ReminderService;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 public class SendReminderController {
 
@@ -25,7 +27,7 @@ public class SendReminderController {
     private final GroupService groupService;
 
     @PostMapping("/send-reminder")
-    public SendReminderResponse sendReminder(final SendReminderRequest request) {
+    public SendReminderResponse sendReminder(@RequestBody SendReminderRequest request) {
         final Optional<Group> group = groupService.getGroupByGroupId(request.getGroupId());
         if (group.isEmpty()) {
             return new SendReminderResponse("INVALID_GROUP_ID", 500);
@@ -74,7 +76,6 @@ public class SendReminderController {
         private String reminderMessage;
         private List<User> reminderUsers;
         private List<User> reminderEditorUsers;
-        private LocalDateTime reminderCreatedDateTime;
         private LocalDateTime reminderDateTime;
 
     }

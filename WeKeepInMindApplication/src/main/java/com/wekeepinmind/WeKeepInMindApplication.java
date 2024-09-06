@@ -1,4 +1,4 @@
-package com.wekeepinmid;
+package com.wekeepinmind;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

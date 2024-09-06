@@ -1,4 +1,4 @@
-package com.wekeepinmid.controller.group;
+package com.wekeepinmind.controller.group;
 
 import org.springframework.stereotype.Controller;
 
