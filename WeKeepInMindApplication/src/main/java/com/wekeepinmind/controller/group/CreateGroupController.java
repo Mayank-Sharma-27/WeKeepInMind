@@ -25,7 +25,8 @@ public class CreateGroupController {
                 createGroupRequest.getAdminName(),
                 false,
                 1,
-                Collections.emptyList());
+                Collections.emptyList(),
+                createGroupRequest.getMaximumNumberOfUsers());
         groupService.saveGroup(group);
         return new CreateGroupResponse("GROUP_CREATED", 200);
     }
@@ -44,6 +45,7 @@ public class CreateGroupController {
     public static class CreateGroupRequest {
         private String groupName;
         private String adminName;
+        private int maximumNumberOfUsers;
     }
 
 }

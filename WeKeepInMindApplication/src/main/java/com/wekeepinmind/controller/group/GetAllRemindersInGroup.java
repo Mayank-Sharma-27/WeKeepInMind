@@ -27,7 +27,6 @@ public class GetAllRemindersInGroup {
 
     }
 
-
     @Data
     @AllArgsConstructor
     @NoArgsConstructor

@@ -46,6 +46,25 @@ public class UpdateGroupController {
         return new AddUserToGroupResponse("GROUP_UPDATED", 200);
     }
 
+    @PostMapping(value = "/remove-user-from-group")
+    public RemoveUserFromGroupResponse removeUserToGroup(@RequestBody RemoveUserFromGroupRequest request) {
+
+        Optional<Group> group = groupService.getGroupByGroupId(request.getGroupId());
+
+        if (group.isEmpty()) {
+            return new RemoveUserFromGroupResponse("INVALID_GROUP", 404);
+        }
+
+        Optional<User> user = userService.getUser(request.getUserId());
+        if(user.isEmpty()){
+            return new RemoveUserFromGroupResponse("INVALID_USER", 403);
+        }
+        group.get().getGroupUsers().remove(user.get());
+        group.get().setNumberOfUsers(group.get().getNumberOfUsers() - 1);
+        groupService.saveGroup(group.get());
+        return new RemoveUserFromGroupResponse("GROUP_UPDATED", 200);
+    }
+
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
@@ -60,5 +79,21 @@ public class UpdateGroupController {
     public static class AddUserToGroupResponse {
         private String message;
         private int status;
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class RemoveUserFromGroupResponse {
+        private String message;
+        private int status;
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class RemoveUserFromGroupRequest {
+        private String groupId;
+        private String userId;
     }
 }
