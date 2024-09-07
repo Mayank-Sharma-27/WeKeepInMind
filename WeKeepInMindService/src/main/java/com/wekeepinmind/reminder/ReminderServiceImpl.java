@@ -8,6 +8,7 @@ import com.wekeepinmind.dao.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class ReminderServiceImpl implements ReminderService {
 
             UserToReminderMapping userToReminderMapping = userToReminderMappingDAO.get(user.getUserId());
 
-            if (userToReminderMapping == null){
+            if (userToReminderMapping == null) {
                 userToReminderMapping = new UserToReminderMapping(user.getUserId(), asList(reminder));
             } else {
                 List<Reminder> currentReminders = userToReminderMapping.getUpcomingReminders();
@@ -50,12 +51,20 @@ public class ReminderServiceImpl implements ReminderService {
         if (userToReminderMapping == null) {
             return Collections.emptyList();
         }
-       return userToReminderMapping.getUpcomingReminders();
+        return userToReminderMapping.getUpcomingReminders();
     }
 
     @Override
     public List<Reminder> getActiveRemindersForGroup(String groupId) {
-        return reminderDAO.getReminderByGroupId(groupId);
+        List<Reminder> reminders = reminderDAO.getReminderByGroupId(groupId);
+        LocalDateTime currentTime = LocalDateTime.now();
+
+        List<Reminder> upcomingReminders = reminders
+                .stream()
+                .filter(reminder -> reminder.getReminderDateTime().isAfter(currentTime))
+                .toList();
+        return upcomingReminders;
+
     }
 
     @Override
