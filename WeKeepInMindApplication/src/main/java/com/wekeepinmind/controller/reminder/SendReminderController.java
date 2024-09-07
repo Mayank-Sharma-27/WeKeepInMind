@@ -3,14 +3,13 @@ package com.wekeepinmind.controller.reminder;
 import com.wekeepinmind.dao.group.Group;
 import com.wekeepinmind.dao.reminder.Reminder;
 import com.wekeepinmind.dao.user.User;
+import com.wekeepinmind.group.GroupService;
+import com.wekeepinmind.reminder.ReminderService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
-import com.wekeepinmind.group.GroupService;
-import com.wekeepinmind.reminder.ReminderService;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
