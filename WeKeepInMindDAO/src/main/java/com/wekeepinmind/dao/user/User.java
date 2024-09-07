@@ -25,7 +25,7 @@ public class User {
     private String userName;
 
     @DynamoDBAttribute
-    private String isVerified;
+    private boolean isVerified;
 
     @DynamoDBAttribute
     private boolean isActive;

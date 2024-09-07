@@ -34,4 +34,8 @@ public class Group {
     @DynamoDBAttribute
     private List<User> groupUsers;
 
+    @DynamoDBAttribute
+    private int maximumNumberOfAllowedUsers;
+
+
 }
