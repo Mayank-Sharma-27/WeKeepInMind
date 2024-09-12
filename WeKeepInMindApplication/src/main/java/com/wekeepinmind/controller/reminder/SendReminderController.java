@@ -36,17 +36,17 @@ public class SendReminderController {
 
         List<User> reminderUsers = request.getReminderUsers();
 
-        Optional<User> invalidUser = reminderUsers
-                .stream()
-                .filter(reminderUser -> !users.contains(reminderUser))
-                .findFirst();
+//        Optional<User> invalidUser = reminderUsers
+//                .stream()
+//                .filter(reminderUser -> !users.contains(reminderUser))
+//                .findFirst();
 
-        if (invalidUser.isPresent()) {
-            return new SendReminderResponse("INVALID_USER_PRESENT", 500);
-        }
+//        if (invalidUser.isPresent()) {
+//            return new SendReminderResponse("INVALID_USER_PRESENT", 500);
+//        }
 
         Reminder reminder = new Reminder("1", request.getGroupId(),
-                request.getReminderSender(),
+                request.getReminderSenderId(),
                 request.getReminderMessage(),
                 LocalDateTime.now(),
                 request.getReminderDateTime(),
@@ -71,7 +71,7 @@ public class SendReminderController {
     @NoArgsConstructor
     public static class SendReminderRequest {
         private String groupId;
-        private String reminderSender;
+        private User reminderSenderId;
         private String reminderMessage;
         private List<User> reminderUsers;
         private List<User> reminderEditorUsers;
