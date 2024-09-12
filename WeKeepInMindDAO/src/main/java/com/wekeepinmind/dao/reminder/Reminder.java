@@ -24,7 +24,7 @@ public class Reminder {
     private String groupId;
 
     @DynamoDBAttribute
-    private String reminderSenderUser;
+    private User reminderSenderUser;
 
     @DynamoDBAttribute
     private String reminderMessage;
