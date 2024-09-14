@@ -10,4 +10,6 @@ public interface UserService {
 
     Optional<User> getUser(String userId);
 
+    void updateUser(User user);
+
 }

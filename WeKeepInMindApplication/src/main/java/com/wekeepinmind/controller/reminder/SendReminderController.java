@@ -46,7 +46,7 @@ public class SendReminderController {
 //        }
 
         Reminder reminder = new Reminder("1", request.getGroupId(),
-                request.getReminderSenderId(),
+                request.getReminderSenderUser(),
                 request.getReminderMessage(),
                 LocalDateTime.now(),
                 request.getReminderDateTime(),
@@ -71,7 +71,7 @@ public class SendReminderController {
     @NoArgsConstructor
     public static class SendReminderRequest {
         private String groupId;
-        private User reminderSenderId;
+        private User reminderSenderUser;
         private String reminderMessage;
         private List<User> reminderUsers;
         private List<User> reminderEditorUsers;

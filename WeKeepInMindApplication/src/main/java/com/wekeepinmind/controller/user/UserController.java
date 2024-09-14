@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Collections;
 import java.util.Optional;
 
 @RestController
@@ -31,7 +32,8 @@ public class UserController {
                 email,
                 request.getName(),
                 true,
-                true);
+                true,
+                Collections.emptyList());
         userService.registerNewUser(newUser);
         return new UserController.GoogleLoginResponse("USER_CREATED", 200);
     }

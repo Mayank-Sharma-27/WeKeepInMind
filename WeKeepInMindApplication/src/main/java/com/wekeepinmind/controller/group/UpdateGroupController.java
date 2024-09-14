@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -37,12 +40,20 @@ public class UpdateGroupController {
             return new AddUserToGroupResponse("GROUP_FULL", 403);
         }
         Optional<User> user = userService.getUser(request.getUserId());
-        if(user.isEmpty()){
+        if (user.isEmpty()) {
             return new AddUserToGroupResponse("INVALID_USER", 403);
         }
         group.get().getGroupUsers().add(user.get());
         group.get().setNumberOfUsers(currentMembers + 1);
         groupService.saveGroup(group.get());
+        List<String> groups = new ArrayList<>();
+        groups = user.get().getGroupIds();
+        if (groups == null) {
+            groups = new ArrayList<>();
+        }
+        groups.add(group.get().getGroupId());
+        user.get().setGroupIds(groups);
+        userService.updateUser(user.get());
         return new AddUserToGroupResponse("GROUP_UPDATED", 200);
     }
 
@@ -56,7 +67,7 @@ public class UpdateGroupController {
         }
 
         Optional<User> user = userService.getUser(request.getUserId());
-        if(user.isEmpty()){
+        if (user.isEmpty()) {
             return new RemoveUserFromGroupResponse("INVALID_USER", 403);
         }
         group.get().getGroupUsers().remove(user.get());
