@@ -22,7 +22,7 @@ public class ReminderDAOImpl implements ReminderDAO {
 
     @Override
     public List<Reminder> getReminderByGroupId(String groupId) {
-        return dynamoDBMapperService.getItemsByIndex(GROUP_ID_INDEX, "groupId", groupId,Reminder.class);
+        return dynamoDBMapperService.getItemsByIndex(GROUP_ID_INDEX, "groupId", groupId, Reminder.class);
 
     }
 
