@@ -33,15 +33,16 @@ public class ReminderServiceImpl implements ReminderService {
     public List<Reminder> getActiveRemindersForUser(String userId) {
         User user = userDAO.getUserByUserId(userId);
 
-        List<String> groupIds = user.getGroupIds();
+        List<String> groups = user.getGroupIds();
 
-        return groupIds
+        return groups
                 .stream()
-                .flatMap(groupId -> reminderDAO.getReminderByGroupId(groupId)
+                .flatMap(group -> reminderDAO.getReminderByGroupId(group)
                         .stream()
                         .filter(reminder -> reminder.getReminderUsers()
                                 .stream()
                                 .anyMatch(us -> us.getUserId().equals(userId))))
+                .filter(reminder -> reminder.getReminderDateTime().isAfter(LocalDateTime.now()))
                 .toList();
 
     }

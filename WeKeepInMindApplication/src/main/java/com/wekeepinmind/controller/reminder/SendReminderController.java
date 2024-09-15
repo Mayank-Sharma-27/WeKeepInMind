@@ -45,7 +45,7 @@ public class SendReminderController {
 //            return new SendReminderResponse("INVALID_USER_PRESENT", 500);
 //        }
 
-        Reminder reminder = new Reminder("1", request.getGroupId(),
+        Reminder reminder = new Reminder("2", request.getGroupId(),
                 request.getReminderSenderUser(),
                 request.getReminderMessage(),
                 LocalDateTime.now(),

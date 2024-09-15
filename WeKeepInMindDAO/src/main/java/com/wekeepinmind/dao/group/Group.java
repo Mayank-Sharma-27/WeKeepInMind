@@ -7,6 +7,7 @@ import com.wekeepinmind.dao.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 import java.util.List;
 
@@ -39,3 +40,4 @@ public class Group {
 
 
 }
+

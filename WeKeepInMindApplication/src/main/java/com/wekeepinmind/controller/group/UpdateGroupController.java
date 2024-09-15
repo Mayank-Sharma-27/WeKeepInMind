@@ -43,8 +43,10 @@ public class UpdateGroupController {
         if (user.isEmpty()) {
             return new AddUserToGroupResponse("INVALID_USER", 403);
         }
-        group.get().getGroupUsers().add(user.get());
+        List<User> usersInGroup = group.get().getGroupUsers() != null ? group.get().getGroupUsers() : new ArrayList<>();
         group.get().setNumberOfUsers(currentMembers + 1);
+        usersInGroup.add(user.get());
+        group.get().setGroupUsers(usersInGroup);
         groupService.saveGroup(group.get());
         List<String> groups = new ArrayList<>();
         groups = user.get().getGroupIds();
@@ -52,8 +54,9 @@ public class UpdateGroupController {
             groups = new ArrayList<>();
         }
         groups.add(group.get().getGroupId());
-        user.get().setGroupIds(groups);
-        userService.updateUser(user.get());
+        User existingUser = user.get();
+        existingUser.setGroupIds(groups);
+        userService.updateUser(existingUser);
         return new AddUserToGroupResponse("GROUP_UPDATED", 200);
     }
 
