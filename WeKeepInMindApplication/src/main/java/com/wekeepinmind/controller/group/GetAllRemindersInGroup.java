@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -19,20 +20,11 @@ public class GetAllRemindersInGroup {
     private final ReminderService reminderService;
 
     @GetMapping(value = "/get-upcoming-group-reminders")
-    public GetAllUpcomingRemindersForGroupResponse getAllUpcomingRemindersForGroupResponse(@RequestBody
-                                                                                           GetAllUpcomingRemindersForGroupRequest request) {
-        List<Reminder> reminders = reminderService.getActiveRemindersForGroup(request.getGroupId());
+    public GetAllUpcomingRemindersForGroupResponse getAllUpcomingRemindersForGroupResponse(@RequestParam("groupId") String groupId) {
+        List<Reminder> reminders = reminderService.getActiveRemindersForGroup(groupId);
 
         return new GetAllUpcomingRemindersForGroupResponse(reminders, "");
 
-    }
-
-    @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public static class GetAllUpcomingRemindersForGroupRequest {
-        private String groupId;
-        private String message;
     }
 
     @Data
