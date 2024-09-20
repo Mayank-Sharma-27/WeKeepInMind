@@ -1,10 +1,12 @@
 package com.wekeepinmind.controller.reminder;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.wekeepinmind.dao.group.Group;
 import com.wekeepinmind.dao.reminder.Reminder;
 import com.wekeepinmind.dao.user.User;
 import com.wekeepinmind.group.GroupService;
 import com.wekeepinmind.reminder.ReminderService;
+import com.wekeepinmind.utils.LocalDateTimeDeserializer;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,6 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+import static java.util.Collections.emptyList;
 
 @RestController
 @RequiredArgsConstructor
@@ -34,7 +39,7 @@ public class SendReminderController {
 
         List<User> users = group.get().getGroupUsers();
 
-        List<User> reminderUsers = request.getReminderUsers();
+        List<UserView> reminderUsers = request.getReminderUsers();
 
 //        Optional<User> invalidUser = reminderUsers
 //                .stream()
@@ -46,12 +51,17 @@ public class SendReminderController {
 //        }
 
         Reminder reminder = new Reminder("2", request.getGroupId(),
-                request.getReminderSenderUser(),
+                new User(request.getReminderSenderUser().getUserId(), request.getReminderSenderUser().getUserEmail(), request.getReminderSenderUser().getUserName(), true, true, null),
                 request.getReminderMessage(),
                 LocalDateTime.now(),
                 request.getReminderDateTime(),
-                request.getReminderUsers(),
-                request.getReminderEditorUsers(),
+                request.getReminderUsers()
+                        .stream()
+                        .map(userView -> new User(userView.getUserId(), userView.getUserEmail(), userView.getUserName(), true, true, null)
+                        )
+                        .collect(Collectors.toList())
+                ,
+                emptyList(),
                 false);
         reminderService.saveReminder(reminder);
 
@@ -71,12 +81,22 @@ public class SendReminderController {
     @NoArgsConstructor
     public static class SendReminderRequest {
         private String groupId;
-        private User reminderSenderUser;
+        private UserView reminderSenderUser;
         private String reminderMessage;
-        private List<User> reminderUsers;
-        private List<User> reminderEditorUsers;
+        private List<UserView> reminderUsers;
+        private List<UserView> reminderEditorUsers;
+        @JsonDeserialize(using = LocalDateTimeDeserializer.class)
         private LocalDateTime reminderDateTime;
-
     }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class UserView {
+        private String userId;
+        private String userEmail;
+        private String userName;
+    }
+
 
 }
