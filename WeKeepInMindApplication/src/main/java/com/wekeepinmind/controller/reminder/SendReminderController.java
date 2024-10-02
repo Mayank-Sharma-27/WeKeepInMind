@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -29,6 +30,9 @@ public class SendReminderController {
     private final ReminderService reminderService;
 
     private final GroupService groupService;
+
+    private final String EXPO_NOTIFICATION_URL = "https://exp.host/--/api/v2/push/send";
+
 
     @PostMapping("/send-reminder")
     public SendReminderResponse sendReminder(@RequestBody SendReminderRequest request) {
@@ -51,13 +55,13 @@ public class SendReminderController {
 //        }
 
         Reminder reminder = new Reminder("2", request.getGroupId(),
-                new User(request.getReminderSenderUser().getUserId(), request.getReminderSenderUser().getUserEmail(), request.getReminderSenderUser().getUserName(), true, true, null),
+                new User(request.getReminderSenderUser().getUserId(), request.getReminderSenderUser().getUserEmail(), request.getReminderSenderUser().getUserName(), true, true, null, null),
                 request.getReminderMessage(),
                 LocalDateTime.now(),
                 request.getReminderDateTime(),
                 request.getReminderUsers()
                         .stream()
-                        .map(userView -> new User(userView.getUserId(), userView.getUserEmail(), userView.getUserName(), true, true, null)
+                        .map(userView -> new User(userView.getUserId(), userView.getUserEmail(), userView.getUserName(), true, true, null, null)
                         )
                         .collect(Collectors.toList())
                 ,
@@ -65,7 +69,23 @@ public class SendReminderController {
                 false);
         reminderService.saveReminder(reminder);
 
+        for (User receiver : reminder.getReminderUsers()) {
+            try {
+                sendExpoNotification(receiver.getExpoPushToken(), "New Reminder", "You have a new reminder: " + reminder.getReminderMessage());
+            } catch (Exception e) {
+                // Log the error and continue with other users
+                e.printStackTrace();
+            }
+        }
+
+
         return new SendReminderResponse("REMINDER_SENT", 200);
+    }
+
+    private void sendExpoNotification(String expoPushToken, String title, String message) {
+        RestTemplate restTemplate = new RestTemplate();
+        PushNotificationRequest pushRequest = new PushNotificationRequest(expoPushToken, title, message);
+        restTemplate.postForObject(EXPO_NOTIFICATION_URL, pushRequest, Void.class);
     }
 
     @Data
@@ -98,5 +118,12 @@ public class SendReminderController {
         private String userName;
     }
 
+    @Data
+    @AllArgsConstructor
+    public static class PushNotificationRequest {
+        private String to;
+        private String title;
+        private String body;
+    }
 
 }

@@ -37,4 +37,7 @@ public class User {
     @DynamoDBAttribute
     private List<String> groupIds;
 
+    @DynamoDBAttribute
+    private String expoPushToken;
+
 }

@@ -33,9 +33,41 @@ public class UserController {
                 request.getName(),
                 true,
                 true,
-                Collections.emptyList());
+                Collections.emptyList(),
+                "");
         userService.registerNewUser(newUser);
         return new UserController.GoogleLoginResponse("USER_CREATED", 200);
+    }
+
+    @PostMapping("/update-push-token")
+    public UpdateTokenResponse updateToken(@RequestBody UpdateTokenRequest request){
+        String email = request.getEmail();
+        Optional<User> user = userService.getUser(email);
+        if (user.isEmpty()) {
+            return new UserController.UpdateTokenResponse("USER_DOES_NOT_EXISTS", 200);
+        }
+
+        User currentUser = user.get();
+
+        currentUser.setExpoPushToken(request.token);
+        userService.updateUser(currentUser);
+        return new UserController.UpdateTokenResponse("USER_UPDATED", 200);
+    }
+
+    @Data
+    @AllArgsConstructor
+    @RequiredArgsConstructor
+    public static class UpdateTokenRequest {
+        private String email;
+        private String token;
+    }
+
+    @Data
+    @AllArgsConstructor
+    @RequiredArgsConstructor
+    public static class UpdateTokenResponse {
+        private String message;
+        private int statusCode;
     }
 
     @Data
