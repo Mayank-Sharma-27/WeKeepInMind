@@ -14,4 +14,6 @@ public interface ReminderService {
 
     void updateReminder(Reminder reminder);
 
+    List<Reminder> getRemindersSentByUser(String userId);
+
 }

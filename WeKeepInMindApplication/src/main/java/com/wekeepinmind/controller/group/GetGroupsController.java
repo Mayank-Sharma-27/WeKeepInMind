@@ -33,7 +33,7 @@ public class GetGroupsController {
 
         List<String> groups = user.get().getGroupIds();
 
-        if(groups ==null || groups.isEmpty()){
+        if(groups == null || groups.isEmpty()){
             return new GetGroupsByUserIdResponse(Collections.emptyList());
         }
 

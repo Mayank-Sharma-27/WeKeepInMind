@@ -46,6 +46,19 @@ public class GetReminderController {
        return new GetRemindersResponse(reminderViews, "", 200);
    }
 
+    @GetMapping(value = "/get-sent-reminders")
+    public GetRemindersResponse getRemindersSentByUser(@RequestParam("userId") String userId){
+        List<Reminder> upcomingGroupReminders = reminderService.getRemindersSentByUser(userId);
+
+        List<ReminderView> reminderViews = upcomingGroupReminders
+                .stream()
+                .map(reminder -> new ReminderView(reminder.getReminderMessage(),
+                        reminder.getReminderSenderUser().getUserName(),
+                        reminder.getReminderDateTime()))
+                .collect(Collectors.toList());
+        return new GetRemindersResponse(reminderViews, "", 200);
+    }
+
     @Data
     @AllArgsConstructor
     @NoArgsConstructor

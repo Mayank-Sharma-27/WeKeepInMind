@@ -8,5 +8,7 @@ public interface GroupService {
 
     Optional<Group> getGroupByGroupId(String groupId);
 
+    void createGroup(Group group);
+
     void saveGroup(Group group);
 }

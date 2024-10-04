@@ -9,10 +9,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collections;
+import java.util.UUID;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 public class CreateGroupController {
 
@@ -20,14 +22,14 @@ public class CreateGroupController {
 
     @PostMapping(value = "/create-group")
     public CreateGroupResponse createGroup(@RequestBody CreateGroupRequest createGroupRequest) {
-        Group group = new Group("1",
+        Group group = new Group(UUID.randomUUID().toString(),
                 createGroupRequest.getGroupName(),
-                createGroupRequest.getAdminName(),
+                createGroupRequest.getEmail(),
                 false,
                 1,
                 Collections.emptyList(),
-                createGroupRequest.getMaximumNumberOfUsers());
-        groupService.saveGroup(group);
+                4);
+        groupService.createGroup(group);
         return new CreateGroupResponse("GROUP_CREATED", 200);
     }
 
@@ -44,7 +46,7 @@ public class CreateGroupController {
     @NoArgsConstructor
     public static class CreateGroupRequest {
         private String groupName;
-        private String adminName;
+        private String email;
         private int maximumNumberOfUsers;
     }
 

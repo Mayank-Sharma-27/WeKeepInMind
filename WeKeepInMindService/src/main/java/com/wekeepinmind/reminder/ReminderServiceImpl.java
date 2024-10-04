@@ -35,6 +35,10 @@ public class ReminderServiceImpl implements ReminderService {
 
         List<String> groups = user.getGroupIds();
 
+        if(groups == null){
+            return Collections.emptyList();
+        }
+
         return groups
                 .stream()
                 .flatMap(group -> reminderDAO.getReminderByGroupId(group)
@@ -57,6 +61,26 @@ public class ReminderServiceImpl implements ReminderService {
                 .filter(reminder -> reminder.getReminderDateTime().isAfter(currentTime))
                 .toList();
         return upcomingReminders;
+
+    }
+
+
+    @Override
+    public List<Reminder> getRemindersSentByUser(String userId) {
+        User user = userDAO.getUserByUserId(userId);
+
+        List<String> groups = user.getGroupIds();
+
+        if(groups == null){
+            return Collections.emptyList();
+        }
+
+        return groups
+                .stream()
+                .flatMap(group -> reminderDAO.getReminderByGroupId(group)
+                        .stream()
+                        .filter(reminder -> reminder.getReminderSenderUser().equals(userId)))
+                .collect(toList());
 
     }
 
